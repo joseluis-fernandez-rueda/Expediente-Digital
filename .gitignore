@@ -1,0 +1,43 @@
+# === JAVA ===
+*.class
+*.log
+*.jar
+*.war
+*.ear
+*.iml
+*.swp
+
+# === ECLIPSE ===
+.project
+.classpath
+.settings/
+bin/
+tmp/
+target/
+
+# === SISTEMA OPERATIVO ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === GIT ===
+*.orig
+*.rej
+*.bak
+*.tmp
+*.old
+
+# === IDEA / NETBEANS / OTROS IDEs (por si acaso) ===
+.idea/
+*.ipr
+*.iws
+*.nb-gradle/
+*.nbproject/private/
+build/
+out/
+
+# === LOGS ===
+*.log
+
+# === CONFIGURACIÓN PERSONAL ===
+.vscode/
