@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="templates/layoutGestor.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"  lang="es">
+	
+	<ui:define name="head">
+		<style>
+			.cabecera {
+				padding: 8px 0px !important;
+			}
+			
+			#j_idt8, #j_idt13 {
+				margin-bottom: 0px;
+			}
+			
+			.estrecho {
+				height: 35px !important;
+				padding: 0px !important;
+			}
+			
+			.mytabla {
+				position: relative !important;
+				top: 30px;
+				padding-top: 0px !important
+			}
+			
+			.color1 {
+				color: #007bff;
+			}
+			
+			.color2 {
+				color: red;
+			}
+			
+			.color3 {
+				color: green;
+			}
+			
+			.color5 {
+				color: gray;
+			}
+			
+			.btn-eliminar {
+				font-size: 16px;
+				background-color: #F76F67;
+				color: #fff;
+				padding: 6px 12px;
+				border-radius: 5px;
+				box-shadow: 1px 1px 5px 0px #666;
+				transition: all .3s;
+			}
+			
+			.btn-eliminar:hover {
+				background-color: #E74A41;
+				transition: all .3s;
+			}
+			
+			.tdsmall {
+				height: 38px !important;
+			}
+			
+			.negrita {
+				font-weight: bold;
+			}
+			
+			#txtMarco_input {
+				height: 37px;
+			}
+			
+			#txtUsuario_input {
+				height: 40px;
+			}
+			
+			#txtMarco_input, #txtUsuario_input {
+				display: inline-block !important;
+				width: calc(100% - 38px);
+			}
+			
+			#txtUsuario {
+				margin-bottom: 25px;
+			}
+			
+			#txtMarco button, #txtUsuario_input button {
+				display: inline-block !important;
+				position: absolute;
+				height: 37px !important;
+			}
+			
+			body .ui-autocomplete .ui-autocomplete-dropdown .ui-icon:before {
+				position: relative;
+				top: -3px;
+			}
+			
+			/** FORMULARIO **/
+			.ui-selectonemenu-items-wrapper {
+				z-index: 999 !important;
+			}
+			
+			.form-linea {
+				margin: 10px 0px 25px 0px;
+			}
+			
+			.form-space10 {
+				display: inline-block;
+				float: left;
+				width: 10%;
+				padding: 0px 1%;
+			}
+			
+			.form-space20 {
+				display: inline-block;
+				float: left;
+				width: 20%;
+				padding: 0px 1%;
+			}
+			
+			.form-space30 {
+				display: inline-block;
+				float: left;
+				width: 30%;
+				padding: 0px 1%;
+			}
+			
+			.form-space40 {
+				display: inline-block;
+				float: left;
+				width: 40%;
+				padding: 0px 1%;
+			}
+			
+			.form-space50 {
+				display: inline-block;
+				float: left;
+				width: 50%;
+				padding: 0px 1%;
+			}
+			
+			.espacio-bajo {
+				margin-bottom: 30px;
+			}
+			
+			@media only screen and (max-width: 1400px) {
+				.form-space10, .form-space20, .form-space30, .form-space40,
+					.form-space50, .form-space10-margin {
+					width: 90%;
+					margin: 15px 5%;
+				}
+			}
+			
+			/** FIN FORMULARIO **/
+		</style>
+		<script>
+						let esAdmin = <h:outputText value="#{mbLogin.administrador ? 'true' : 'false'}" />;
+						if (esAdmin !== true) {
+							alert('usuario no autorizado');
+							location.href = '../index.xhtml';
+						}
+					
+						function accion(dni) {
+							if (!confirm("Desea eliminar el usuario " + dni) == true) {
+								return;
+							}
+							var promise = rcElimina([
+	
+							{
+								name : 'dni',
+								value : dni
+							} ]);
+							promise.then(function(result) {
+								rcBusca([ {} ]);
+	
+							}, function(error) {
+								alert("ERROR");
+							});
+	
+						}
+						function inserta() {
+							var dni=document.getElementById('txtDni').value ; 
+							var perfil=document.getElementById('txtPerfil').value ; 
+							var promise = rcInserta([
+	
+							{
+								name : 'dni',
+								value : dni
+							},
+							{
+								name : 'perfil',
+								value : perfil
+							}
+							]);
+							promise.then(function(result) {
+								rcBusca([ {} ]);
+	
+							}, function(error) {
+								alert("ERROR");
+							});
+	
+						}
+					</script>
+		
+	</ui:define> <!-- De head -->
+	<ui:define name="content">
+		<div class="vista-usuarios">
+			<p:panel id="pnlR" class="col-sm-12 cont-contuser" widgetVar="pnlR">
+				<h:form id="form1" style="height:700px!important;" name="form1" class="formu-block"
+					onkeypress="if (event.keyCode == 13) { clicked(); return false; }"
+					prependId="false">
+					<!-- prependId="false" evita que se propague el id generado por primefaces -->
+					<f:metadata>
+						<f:viewAction action="#{mbEmpleados.buscarUsuariosExtras}" />
+					</f:metadata>
+					<p:remoteCommand name="rcBusca"
+						action="#{mbEmpleados.buscarUsuariosExtras}" update="pnlR" />
+					<p:remoteCommand name="rcElimina"
+						action="#{mbEmpleados.eliminaUsuario}" update="pnlR" />
+					<p:remoteCommand name="rcInserta"
+						action="#{mbEmpleados.insertaUsuario}" update="pnlR" />
+					<div class="row">
+					
+					
+						<div class="col-3 izq">
+							<div class="card2">
+								<h2 class="tit-izq">Añadir Usuario</h2>
+								
+								<div class="form-usu">
+										<label for="txtDni">DNI</label>
+										<input type="text" id="txtDni"/>		
+									
+										<!-- Perfil (A,L,E)<br /> <input type="text" id="txtPerfil" /> -->
+									
+										<label for="txtPerfil">Perfil</label>
+										<select id="txtPerfil">
+											<option value="A">A</option>
+											<option value="L">L</option>
+											<option value="E">E</option>
+										</select>
+										
+								</div>
+								
+								<input
+									type="button" class="btn-buscar" value="Añadir"
+									onclick="inserta();" />
+							</div>
+						</div>
+					
+					
+						<div class="col-9 der">
+							<div class="card2">
+								<p:dataTable class="mytabla" id="dtDetalles1" var="detalle"
+									value="#{mbEmpleados.usuarios}" rowKey="#{detalle.dni}"
+									scrollHeight="700" scrollable="true" selectionMode="single"
+									selection="#{mbEmpleados.usuarioSeleccionado}">
+									<f:facet name="header">	
+											<h2 class="tit-der">Usuarios Extras</h2>
+									</f:facet>
+									<p:column>
+										<span id="spn__#{detalle.dni}"> </span>
+										<span> <h:outputText 
+												value="#{detalle.dni}" /></span>
+									</p:column>
+									<p:column>
+										<span id="spn__#{detalle.perfil}"> </span>
+										<span> <h:outputText style="color:gray"
+												value="#{detalle.perfil}" /></span>
+									</p:column>
+									<p:column>
+										<input type="button" class="btn-eliminar" value="Eliminar"
+											onclick="accion('#{detalle.dni}');" />
+									</p:column>
+		
+		
+								</p:dataTable>
+							</div>
+						</div>
+						
+	
+	
+					</div>
+					
+	
+				</h:form>
+			</p:panel>
+			
+		</div>	
+	</ui:define>
+
+</ui:composition>
+

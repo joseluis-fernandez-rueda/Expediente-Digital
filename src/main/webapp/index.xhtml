@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+ 
+	<ui:composition template="/WEB-INF/templates/layoutC.xhtml"
+		xmlns="http://www.w3.org/1999/xhtml"
+	    xmlns:ui="http://java.sun.com/jsf/facelets"
+	    xmlns:h="http://java.sun.com/jsf/html"
+	    xmlns:f="http://java.sun.com/jsf/core"
+	    xmlns:p="http://primefaces.org/ui"
+	    lang="es">
+		
+			<ui:define name="content">
+			<div class="container-fluid fondo-login login">
+				<div class="row">
+			
+			
+							<section class="col-4 izq">
+								<img src="resources/img/E_logo.png"/> 
+							</section>
+			 
+					 	 	<section class="col-4">
+					 	 	
+					 	 		<div class='row'>
+					 	 			<div class="offset-3 col-6 tit-login">
+					 	 				<h2>Acceso</h2>
+					 	 			</div>
+					 	 		</div>
+					 	 		<div class='row'>
+							 		<div class="offset-3 col-6 login-form">
+										<h:form id="formLogin">
+							           		<div class="form-item">
+								       			<p:inputText id="username" value="#{mbLogin.usuario}" required="true" autocomplete="off" label="usuario" class="form-control"/>
+								 				<label for="username">DNI</label>
+								 			</div>
+											
+											<div class="form-item"> 			
+								            	<p:password id="password" widgetVar="wvpassword" value="#{mbLogin.contrasenya}" required="true" label="contraseña"/>
+								            	<label for="password">Contraseña</label>
+								 			</div>	 			
+								                <h:commandButton id="btnEntrar" value="Entrar" action="#{mbLogin.doLogin}" update="msj" ajax="true" class="btn-primary"/>
+								            <h:messages id="msj" />
+						           		</h:form>
+						           	</div>
+						         </div>
+				        	</section>
+				        	
+				        	<section class="col-4 der">
+				        		<img src="resources/img/D_logo.png"/> 
+				        	</section>
+		        	</div>
+		       </div>
+		      
+		        	
+				<!-- OLAS -->
+				<div class="cont-olas">
+				  <div>
+				    <svg class="olas" xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+				      <defs>
+				        <path id="onda-suave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+				      </defs>
+				      <g class="parallax">
+				        <use href="#onda-suave" x="48" y="0" fill="rgba(2,162,221,0.35)" />
+				        <use href="#onda-suave" x="48" y="3" fill="rgba(2,162,221,0.25)" />
+				        <use href="#onda-suave" x="48" y="5" fill="rgba(2,162,221,0.15)" />
+				        <use href="#onda-suave" x="48" y="7" fill="#02A2DD" />
+				      </g>
+				    </svg>
+				  </div>
+				</div>
+				<!-- FIN OLAS -->
+
+        
+		 
+		</ui:define>
+		
+		
+	</ui:composition>
+

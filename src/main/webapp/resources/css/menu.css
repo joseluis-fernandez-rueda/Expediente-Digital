@@ -1,0 +1,142 @@
+@font-face {
+    font-family: Nunito;
+    src: url(../fonts/Nunito-Regular.ttf);
+  }
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    font-family: Nunito;
+}
+
+body{
+    min-width: 1810px!important;
+    overflow-y: auto;
+}
+
+.text-izq{
+    text-align: left;
+}
+.text-azul{
+    color: #4e73df;
+    font-weight: bold;
+}
+
+.menu{
+    left: -25px;
+    width: calc(100% + 45px);
+    border-radius: 0px 0px 17px 17px;
+    font-size: 14px;
+    position: relative;
+    top: -24px;
+}
+.menu_bar{
+    display: none;
+}
+.menu nav{
+    background-color: #4e73df;
+    background: rgb(186,203,252);
+    background: linear-gradient(180deg, rgba(186,203,252,1) 0%, rgba(78,115,223,1) 100%);
+    z-index: 999;
+    /*max-width: 1900px;*/
+    width: 100%;
+    margin: 0px auto;
+}
+.menu nav ul{
+    list-style: none;
+    box-shadow: 3px 3px 3px 0px #000;
+}
+.menu nav ul li{
+    display: inline-block;
+    position: relative;
+}
+
+.menu nav ul li:hover{
+    background: #999;
+    background: linear-gradient(180deg, rgb(118, 118, 118) 0%, rgba(187,187,187,1) 100%);
+    box-shadow: 1px 1px 4px 0px #000 inset;
+}
+.menu nav ul li a{
+    color: #fff;
+    display: block;
+    text-decoration: none;
+    padding: 20px;
+    font-weight: bold;
+    margin: 0px auto;
+    text-align: center;
+}
+.menu nav ul li .children{
+    display: none;
+    background-color: #bbb;
+    position: absolute;
+    width: 150%;
+    z-index: 999;
+    box-shadow: 3px 3px 3px 0px #000;
+}
+.menu nav ul li:hover .children{
+    display: block;
+}
+.menu nav ul li .children li{
+    display: block;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(78, 115, 223, .6);
+}
+.menu nav ul li .children li:hover{
+    background: rgba(78, 115, 223, .6);
+    box-shadow: none;
+}
+.menu nav ul li .children li{
+    display: block;
+}
+.menu nav ul li .children li a{
+    font-weight: normal;
+}
+
+.panel-fijo-2{
+    top: 190px;
+}
+
+.panel-movil-2{
+    left: 550px;
+}
+
+.archivo{
+    margin: 10px;
+}
+
+@media screen and (max-width: 800px) {
+    
+    body{
+        padding-top: 80px;
+    }
+
+    .menu_bar{
+        display: block;
+        width: 100%;
+        position: fixed;
+        top: 150px;
+        background: linear-gradient(180deg, rgba(186,203,252,1) 0%, rgba(78,115,223,1) 100%);
+    }
+
+    .menu_bar .bt-menu{
+        display: block;
+        padding:20px;
+        color: #fff;
+        overflow: hidden;
+        font-size: 25px;
+    }
+    header nav ul li{
+        display: block;
+        border-bottom: 1px solid rgba(78, 115, 223, .6);
+    } 
+    header nav ul li a{
+        display: block;
+    } 
+    header nav ul li .children{
+        width: 100%;
+        position: relative;
+    }
+    header nav ul li .children li a{
+        margin-left: 20px;
+    }
+}

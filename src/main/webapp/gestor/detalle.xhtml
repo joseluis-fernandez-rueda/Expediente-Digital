@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/gestor/templates/layoutGestor.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" lang="es">
+	
+	<ui:define name="head">
+		<style>
+			.ui-menubar .ui-menuitem-link {
+				font-size: 15px;
+			}
+		</style>
+		
+	
+
+			<!-- SELECCIONAR ELEMENTO PADRE DEL MENÚ --> 
+		<script>
+			/* function publica(id, nombre) {
+				var promise = rcPublicar([ {
+					name : 'id',
+					value : id
+				}, {
+					name : 'nombre',
+					value : nombre
+				} ]);
+
+				promise.then(function(result) {
+					if (document.getElementById("hddErrores").value != "") {
+						alert(document.getElementById("hddErrores").value);
+					} else {
+						window.open("./documentos/" + nombre, '_blank');
+					}
+				}, function(error) {
+					console.log("ERROR");
+					alert("HA OCURRIDO UN ERROR");
+				});
+
+			} */
+			
+			function publica(id, nombre) {
+			    var promise = rcPublicar([
+			        { name: 'id', value: id },
+			        { name: 'nombre', value: nombre }
+			    ]);
+
+			    promise.then(function(result) {
+			        if (document.getElementById("hddErrores").value != "") {
+			            alert(document.getElementById("hddErrores").value);
+			        } else {
+			            window.open('../descargar?id=' + id, '_blank');
+			        }
+			    }, function(error) {
+			        console.log("ERROR");
+			        alert("HA OCURRIDO UN ERROR");
+			    });
+			}
+
+	
+			function elimina(index) {
+				// Haces referencia al elemento para no recorrer el DOM varias veces
+				var ndoc = index;
+
+				if (confirm("Desea realmente borrar este registro?. No se podrá deshacer la acción!") == true) {
+
+					var promise = rcEliminar([ {
+						name : 'ndoc',
+						value : ndoc
+					} ]);
+
+					promise.then(function(result) {
+						if (document.getElementById("hddErrores").value != "") {
+							alert(document.getElementById("hddErrores").value);
+						} else {
+							alert("Eliminado con éxito");
+
+						}
+						window.location.reload();
+					}, function(error) {
+						console.log("ERROR");
+						alert("HA OCURRIDO UN ERROR");
+					});
+
+				}
+			}
+			
+			PrimeFaces.locales["es"] = {
+				    closeText: "Cerrar",
+				    prevText: "Anterior",
+				    nextText: "Siguiente",
+				    monthNames: ["Enero","Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+				    monthNamesShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+				    dayNames: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+				    dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+				    dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+				    weekHeader: "Semana",
+				    firstDay: 1,
+				    isRTL: false,
+				    showMonthAfterYear: false,
+				    yearSuffix: "",
+				    timeOnlyTitle: "Solo hora",
+				    timeText: "Tiempo",
+				    hourText: "Hora",
+				    minuteText: "Minuto",
+				    secondText: "Segundo",
+				    currentText: "Fecha actual",
+				    ampm: false,
+				    month: "Mes",
+				    week: "Semana",
+				    day: "Día",
+				    allDayText : "Todo el día"
+				};
+
+			function handle(e){
+				alert ("a");
+				var letra = e.keyCode;
+				//alert(letra);
+				// EL 27 es el ESC
+				if ( letra==13 ) letra=9;
+				if(letra == 9)
+				{
+					var form = event.target.form;
+				    var index = Array.prototype.indexOf.call(form, e.target);
+					console.log (index);
+					index=index+11;			
+				    form.elements[index].focus();
+				    form.elements[index].click();
+				    }
+			}
+		</script>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="container-fluid">
+
+			<f:metadata>
+				<f:viewAction action="#{mbEmpleados.cargaEmpleado}" />
+			</f:metadata>
+
+			<!-- MENU -->
+
+				<h:form>
+					<p:growl id="messages" showDetail="false" />
+					
+
+					<br />
+					<a href="index.xhtml" class="btn-inicio"><img src="../resources/img/inicio.png"/> INICIO</a>
+					<p:menubar id="menu"  model="#{mbEmpleados.model}" toggleable="true" />
+					<br />
+				</h:form>
+
+			<!-- FIN MENU -->
+
+			<p:ajaxStatus onstart="PF('statusDialog').show()"
+				onsuccess="PF('statusDialog').hide()" />
+
+			<p:dialog widgetVar="statusDialog" id="statusDialog"
+				name="statusDialog" modal="true" draggable="false" closable="true"
+				resizable="false" showHeader="false" visible="true">
+				<img src="../resources/img/loading.gif" style="width: 100%" />
+			</p:dialog>
+
+			<!-- Outer Row -->
+			<div class="row">
+
+				<div class="col-sm-10 col-lg-3 panel-fijo-2">
+					<div class="card o-hidden border-0 shadow-lg">
+						<div class="card-body p-5">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="text-center">
+										<h1 class="h4 text-gray-900 mb-4">Datos del Empleado</h1>
+										<p class="text-izq">
+											<span class="text-azul">Nombre: </span>#{mbEmpleados.empleadoSel.nombre}
+											#{mbEmpleados.empleadoSel.apellido1}
+											#{mbEmpleados.empleadoSel.apellido2}
+										</p>
+										<p class="text-izq">
+											<a
+												href="detalle.xhtml?id=#{mbEmpleados.empleadoSel.DNI}&amp;opc="><h:outputText
+													value="#{mbEmpleados.empleadoSel.DNI}" /></a>
+										</p>
+										<p class="text-izq">
+											<span class="text-azul">Num Emp: </span>#{mbEmpleados.empleadoSel.numEmpleado}
+										</p>
+										<p class="text-izq">
+											<span class="text-azul">Servicio: </span>#{mbEmpleados.empleadoSel.servicio}
+										</p>
+									</div>
+								</div>
+							</div>
+							<form action="" method="post">
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="text-center">
+											<h1 class="h4 text-gray-900 mb-4">Acciones</h1>
+										</div>
+									</div>
+								</div>
+
+								<div class="row" id="dvSubirDocs">
+									<div class="col-lg-12">
+										<div class="row">
+											<div class="col-12">
+												<label for="subir">Subir Archivo tipo: <br /> <b>#{mbEmpleados.opcion}</b></label>
+											</div>
+
+											<div class="col-12">
+												<p:calendar id="fecha" value="#{mbEmpleados.fecha}"
+													width="270px" pattern="dd/MM/yyyy" locale="es" />
+											</div>
+
+											<div class="col-12">
+												<h:form enctype="multipart/form-data">
+													<p:fileUpload id="fuDocumentacion"
+														listener="#{mbFileUploadView.handleFileUpload}"
+														mode="advanced" dragDropSupport="true" multiple="false" auto="false"
+														update="messages"
+														allowTypes="/(\.|\/)(gif|jpe?g|png|pdf)$/"
+														oncomplete="location.reload();" />
+													<p:growl id="messages" showDetail="true" life="2000" />
+													<h:inputHidden id="idEmpleado"
+														value="#{mbEmpleados.empleadoSel.numEmpleado}"></h:inputHidden>
+													<h:inputHidden id="idOpcion"
+														value="#{mbEmpleados.idOpcion}"></h:inputHidden>
+													<h:inputHidden id="Opcion" value="#{mbEmpleados.opcion}"></h:inputHidden>
+												</h:form>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</form>
+						</div>
+
+						<div class="row pie"></div>
+
+					</div>
+				</div>
+
+				<div class="col-sm-10 col-lg-8 panel-movil-2">
+					<div class="card o-hidden border-0 shadow-lg">
+						<div class="card-body p-5">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="text-center">
+										<h1 class="h4 text-gray-900 mb-4">
+											<a
+												href="detalle.xhtml?id=#{mbEmpleados.empleadoSel.idEmpleado}&amp;opc="
+												target="_parent">INICIO</a> - <span style="color: green;">#{mbEmpleados.opcion}</span>
+										</h1>
+									</div>
+								</div>
+
+							</div>
+							<div class="row">
+								<div class="col-12">
+
+									<p:panel id="pnlDocumentos" widgetVar="pnlDocumentos"
+										styleClass="upLeft">
+										<h:form id="frmDocs">
+											<p:dataTable  rendered="#{mbLogin.administrador or not mbEmpleados.empleadoSel.datosProtegidos}" id="tbl" var="doc" widgetVar="tbl"
+												value="#{mbEmpleados.empleadoSel.documentos}"
+												style="table-layout: auto" styleClass="noHeader dtLeft"
+												editable="true" editMode="cell"
+								
+												rowKey="#{mbEmpleados.empleadoSel.documentos}"
+												prependId="false" scrollable="true" scrollHeight="710">
+												<p:ajax event="cellEdit"
+													listener="#{mbEmpleados.onCellEdit}" update="tbl"
+													oncomplete="alert ('modificado');location.reload();" />
+
+												<p:column styleClass="col-lg-1" style="display:none;"
+													headerText="Id">
+													<h:outputText value="#{doc.id}" />
+												</p:column>
+												<p:column styleClass="col-lg-1" headerText="Tipo">
+													<img src="../resources/img/#{doc.extension}.png" alt=""
+														style="width: 50px; margin: 0px auto; display: block; cursor: pointer"
+														onclick="publica('#{doc.id}','#{doc.nombre}');return;window.open('#{doc.ruta}#{doc.nombre}','_blank');" />
+												</p:column>
+												<p:column styleClass="col-lg-2" headerText="Documento">
+													<h:outputText value="#{doc.nombre}" />
+												</p:column>
+												<p:column styleClass="col-lg-2" headerText="Fecha">
+													<h:outputText value="#{doc.fechaF}" />
+												</p:column>
+												<p:column styleClass="col-lg-2" headerText="F Subida">
+													<h:outputText value="#{doc.fechaSubidaF}" />
+												</p:column>
+												<p:column styleClass="col-lg-2" headerText="Tipo">
+													<p:cellEditor>
+														<f:facet name="output">
+															<h:outputText value="#{doc.opcion}" />
+														</f:facet>
+														<f:facet name="input">
+															<h:selectOneMenu value="#{doc.opcion}"
+																rendered="#{mbLogin.escritura}">
+																<f:selectItem></f:selectItem>
+																<f:selectItems value="#{mbEmpleados.availableMenu}"
+																	var="status" itemLabel="#{status.text}"
+																	itemValue="#{status.id}"></f:selectItems>
+															</h:selectOneMenu>
+															<h:outputText value="#{doc.opcion}"
+																rendered="#{!mbLogin.escritura}" />
+														</f:facet>
+													</p:cellEditor>
+												</p:column>
+												<p:column styleClass="col-lg-2" headerText="Eliminar"
+													rendered="#{mbLogin.administrador}">
+
+													<button type="button" id="btnAlta" class="btn btn-light"
+														value=" " onclick="elimina('#{doc.id}');">
+														<img src="../resources/img/borrar.png" />
+													</button>
+
+												</p:column>
+											</p:dataTable>
+
+										</h:form>
+
+									</p:panel>
+								</div>
+							</div>
+							<input type="hidden" id="hddErrores"
+								value="#{mbEmpleados.errores}" />
+							<p:remoteCommand name="rcEliminar"
+								action="#{mbEmpleados.eliminaDoc}" update="pnlDocumentos" />
+							<p:remoteCommand name="rcPublicar"
+								action="#{mbEmpleados.publicaDoc}" update="pnlDocumentos" />
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Funciones JS que necesitan el DOM cargado-->
+		<h:outputScript target="body">
+		    $(function () {
+		        PF('statusDialog').hide();
+		
+		        // Mostrar u ocultar sección de subida según permisos
+		        if ("#{mbEmpleados.opcion}" === "") {
+		            $("#dvSubirDocs").hide();
+		        } else {
+		            if (#{mbLogin.escritura}) {
+		                $("#dvSubirDocs").show();
+		            } else {
+		                $("#dvSubirDocs").hide();
+		            }
+		        }
+		
+		        // Selección del padre del submenú
+		        $(".btn_submenu3").parent().css({
+		            "background": "rgba(250, 250, 250, 1)!important",
+		            "z-index": "9!important"
+		        });
+		    });
+		</h:outputScript>
+		
+		
+	</ui:define>
+</ui:composition>

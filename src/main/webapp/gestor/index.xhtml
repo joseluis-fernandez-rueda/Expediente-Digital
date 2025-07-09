@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition template="/gestor/templates/layoutGestor.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" lang="es">
+	
+	<ui:define name="head">
+		<style>
+			.noHeader.ui-datatable table thead tr 
+			{
+		    	display: none;
+			}
+		</style>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<!-- Outer Row -->
+		<div class="row mar-top-20 indexpage">
+
+			<div class="col-sm-10 col-lg-3 panel-fijo-2">
+				<div class="card o-hidden border-0 shadow-lg">
+					<div class="card-body p-5">
+
+
+						<h:form id="frmBuscar" action="" method="post">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="text-center">
+										<h1 class="h4 text-gray-900 mb-4">Buscar Empleado</h1>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="form-item"  title="Búsqueda por: Nº Empleado, Nombre o DNI">
+										<p:inputText id="empleado" value="#{mbEmpleados.emp}"
+											required="true" class="form-control" placeholder="Nº Empleado, Nombre o DNI" />
+										<label for="username">Empleado</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="row margen-20">
+										<h:commandButton id="btnBuscar" value="Buscar" action="#{mbEmpleados.busca}"
+											update="pnlEmpleados" ajax="true"
+											class="btn boton-primario btn-block" />
+									</div>
+								</div>
+							</div>
+
+						</h:form>
+					</div>
+
+					<div class="row pie">Los campos marcados con * son obligatorios.</div>
+
+				</div>
+			</div>
+
+			<div class="col-sm-10 col-lg-8 panel-movil-2">
+				<div class="card o-hidden border-0 shadow-lg">
+					<div class="card-body p-5">
+						<form action="" method="post">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="text-center">
+										<h1 class="h4 text-gray-900 mb-4">Seleccionar Empleado</h1>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-12">
+
+									<div class="card-body p-5">
+
+										<div class="container-fluid listado">
+
+
+											<div class="row tit-listado d-flex align-items-center">
+												<div class="col-lg-2">DNI</div>
+												<div class="col-lg-6 linea-izq">Apellidos, Nombre</div>
+												<div class="col-lg-1 linea-izq">NEmp</div>
+												<div class="col-lg-3 linea-izq">Categoría/Puesto</div>
+
+												<p:panel id="pnlEmpleados" widgetVar="pnlEmpleados" styleClass="upLeft">
+
+													<p:dataTable id="tbl" var="emp"
+														value="#{mbEmpleados.empleados}"
+														style="table-layout: auto"  styleClass="noHeader dtLeft" >
+
+														<p:column    styleClass="col-lg-2">
+															<a href="detalle.xhtml?id=#{emp.DNI}&amp;opc="><h:outputText value="#{emp.DNI}"  /></a>
+														</p:column>
+														<p:column  styleClass="col-lg-2">
+															<h:outputText value="#{emp.apellido1}" />
+														</p:column>
+														<p:column  styleClass="col-lg-2">
+															<h:outputText value="#{emp.apellido2}" />
+														</p:column>
+														<p:column   styleClass="col-lg-2">
+															<h:outputText value="#{emp.nombre}" />
+														</p:column>
+														<p:column styleClass="col-lg-1">
+															<h:outputText value="#{emp.numEmpleado}" />
+														</p:column>
+														<p:column    styleClass="col-lg-3">
+															<h:outputText value="#{emp.categoria}" title="#{emp.puesto}" />
+														</p:column>
+													</p:dataTable>
+												</p:panel>
+											</div>
+
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+
+	</ui:define>
+</ui:composition>

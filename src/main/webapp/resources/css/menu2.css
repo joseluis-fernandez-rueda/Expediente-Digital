@@ -1,0 +1,109 @@
+@font-face {
+    font-family: Nunito;
+    src: url(../fonts/Nunito-Regular.ttf);
+  }
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    font-family: Nunito;
+}
+
+body{
+    height: 100%;
+}
+
+.text-izq{
+    text-align: left;
+}
+.text-azul{
+    color: #4e73df;
+    font-weight: bold;
+}
+
+.menu{
+    left: -25px;
+    width: 300px;
+ 
+    border-radius: 0px 0px 17px 17px;
+    font-size: 14px;
+    position: relative;
+    top: -24px;
+    bottom: 0px;
+    z-index: 9999;
+}
+.menu_bar{
+    display: none;
+}
+.menu nav{
+    background-color: #4e73df;
+    background: rgb(186,203,252);
+    background: linear-gradient(180deg, rgba(186,203,252,1) 0%, rgba(78,115,223,1) 100%);
+    z-index: 999;
+    /*max-width: 1900px;*/
+    width: 100%;
+    margin: 0px auto;
+}
+.menu nav ul{
+    list-style: none;
+    box-shadow: 3px 3px 3px 0px #000;
+}
+.menu nav ul li{
+   /* display: inline-block; */
+    position: relative;
+}
+
+.menu nav ul li:hover{
+    background-color: #bbb;
+}
+.menu nav ul li a{
+    color: #fff;
+    display: block;
+    text-decoration: none;
+    padding: 20px;
+    font-weight: bold;
+    margin: 0px auto;
+    text-align: center;
+}
+.menu nav ul li .children{
+    display: none;
+    background-color: #bbb;
+    position: absolute;
+    width: 150%;
+    z-index: 999;
+    box-shadow: 3px 3px 3px 0px #000;
+}
+.menu nav ul li:hover .children{
+    display: block;
+    margin-left: 300px;
+    top: 0px;
+}
+.menu nav ul li .children li{
+    display: block;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(78, 115, 223, .6);
+}
+.menu nav ul li .children li:hover{
+    background-color: rgba(78, 115, 223, .6);
+}
+.menu nav ul li .children li{
+    display: block;
+}
+.menu nav ul li .children li a{
+    font-weight: normal;
+}
+
+.panel-fijo-2{
+    top: 117px;
+    left: 350px;
+}
+
+.panel-movil-2{
+    left: 550px;
+    top: -500px;
+}
+
+.archivo{
+    margin: 10px;
+}
+
